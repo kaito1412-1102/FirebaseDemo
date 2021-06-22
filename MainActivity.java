@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button button;
     FirebaseRemoteConfig firebaseRemoteConfig;
     FirebaseRemoteConfigSettings firebaseRemoteConfigSettings;
+    FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
         initFirebaseRemoteConfig();
+        initFirebaseAnalytics();
+    }
+
+    private void initFirebaseAnalytics() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        firebaseAnalytics.setUserProperty("favorite_food", "food");
     }
 
     private void getValueFirebaseConfig() {
@@ -66,12 +73,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button.setOnClickListener(this);
     }
 
+    public void recordButton() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "1");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "click");
+        firebaseAnalytics.logEvent("My_Button", bundle);
+        firebaseAnalytics.logEvent("My_Button1", new Bundle());
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
                 getValueFirebaseConfig();
+                recordButton();
                 break;
         }
     }
 }
+// adb shell setprop debug.firebase.analytics.app com.example.firebasedemo
