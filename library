@@ -1,0 +1,25 @@
+File build.gradle:
+buildscript {
+    ......
+    dependencies {
+        .....
+        classpath 'com.google.gms:google-services:4.3.8'
+    }
+}
+
+File build.gradle(Module:app)
+android {
+........
+  compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    apply plugin: 'com.android.application'
+    apply plugin: 'com.google.gms.google-services'
+ }
+ 
+ 
+//Bằng cách sử dụng Firebase Android BoM , ứng dụng của bạn sẽ luôn sử dụng các phiên bản tương thích của thư viện Firebase Android.
+implementation platform('com.google.firebase:firebase-bom:28.1.0')
+implementation 'com.google.firebase:firebase-analytics'
+implementation 'com.google.firebase:firebase-config'
